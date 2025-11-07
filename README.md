@@ -9,20 +9,46 @@ Veo3 is Google's state-of-the-art video generation model that can create high-qu
 ## Prerequisites
 
 - Python 3.7 or higher
-- Google GenAI Python SDK
-- VEO3_API_KEY environment variable set
+- Google Cloud account with Veo3 API access
+- Google API key with GenAI permissions
 
-## Installation
+## Installation & Setup
 
-1. Install the required dependencies:
+1. **Clone the repository** (if not already done):
+```bash
+git clone <your-repo-url>
+cd veo3-experiment
+```
+
+2. **Install dependencies**:
 ```bash
 pip install -r requirements.txt
 ```
 
-2. Set up your API key:
+3. **Configure authentication**:
+
+   Option A - Environment variable:
+   ```bash
+   export GOOGLE_API_KEY="your-api-key-here"
+   ```
+
+   Option B - Create a .env file:
+   ```bash
+   cp .env.example .env
+   # Edit .env and add your API key
+   ```
+
+4. **Verify setup** (optional):
 ```bash
-export VEO3_API_KEY="your-api-key-here"
+python -c "from google import genai; print('SDK installed successfully')"
 ```
+
+## Where Videos Are Saved
+
+- **Simple script** (`example_simple.py`): Saves to `golden_retriever.mp4` in the current directory
+- **Advanced script** (`generate_video.py`):
+  - Default: `generated_video.mp4` in the current directory
+  - Custom: Use `-o` flag to specify any path, e.g., `--output /path/to/my_video.mp4`
 
 ## Usage
 
@@ -63,13 +89,37 @@ python generate_video.py "northern lights over mountains" \
 
 ### Command-line Options
 
-- `prompt` - Text description of the video to generate (required)
+- `prompt` - Text description of the video to generate (required) - **YES, you can use any prompt!**
 - `-o, --output` - Output filename (default: generated_video.mp4)
 - `-n, --negative-prompt` - Things to avoid in the video
 - `-a, --aspect-ratio` - Aspect ratio: 9:16, 16:9, or 1:1 (default: 9:16)
 - `-r, --resolution` - Resolution: 720p or 1080p (default: 720p)
 - `-m, --model` - Veo model to use (default: veo-3.1-fast-generate-preview)
 - `-p, --poll-interval` - Polling interval in seconds (default: 20)
+
+### Custom Prompts
+
+Yes! You can use **any text prompt** you want. The script accepts any description and passes it to the Veo3 model. Examples:
+
+```bash
+# Nature scenes
+python generate_video.py "time-lapse of cherry blossoms blooming in spring"
+
+# Action scenes
+python generate_video.py "skateboard trick in slow motion at sunset"
+
+# Abstract concepts
+python generate_video.py "colorful paint mixing in water, macro shot"
+
+# Cinematic shots
+python generate_video.py "dramatic overhead drone shot of a winding mountain road"
+```
+
+The model works best with:
+- Clear, descriptive language
+- Specific camera angles/movements
+- Lighting and mood descriptors
+- Concrete visual elements
 
 ## Files
 
